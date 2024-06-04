@@ -65,7 +65,7 @@ class Trainer:
         self.initialize_loaders()
         self.initialize_model()
 
-    def threshold_at_point_one(self, x): 
+    def threshold_for_cropforeground(self, x): 
         '''
         Helper function for Monai's CropForegroundd function. Specifies that rows or columns of pixels,
         which do not include pixels with values between 0.3 and 0.7 can be removed.    
@@ -78,7 +78,7 @@ class Trainer:
             LoadImaged("image"),
             EnsureChannelFirstd("image"),
             ScaleIntensityd("image"),
-            CropForegroundd(keys = "image", source_key = "image", allow_smaller = False, select_fn=self.threshold_at_point_one, margin=0),
+            CropForegroundd(keys = "image", source_key = "image", allow_smaller = False, select_fn=self.threshold_for_cropforeground, margin=0),
             Rotate90d("image", k=3),
             RandScaleCropd("image", 0.9, random_center = True),
             RandRotated(keys="image", range_x= (-np.pi/12, np.pi/12), prob=0.8, keep_size=True),
@@ -91,7 +91,7 @@ class Trainer:
             LoadImaged("image"),
             EnsureChannelFirstd("image"),
             ScaleIntensityd("image"),
-            CropForegroundd(keys = "image", source_key = "image", allow_smaller = False, select_fn=self.threshold_at_point_one, margin=0),
+            CropForegroundd(keys = "image", source_key = "image", allow_smaller = False, select_fn=self.threshold_for_cropforeground, margin=0),
             Rotate90d("image", k=3),
             Resized("image", spatial_size=self.crop_size, mode="area")
         ])    
