@@ -69,7 +69,9 @@ iface = gr.Interface(
     fn=get_classification,
     inputs=gr.Image(type="numpy", label="Upload Image", image_mode = "L"),
     outputs="text",
-    live=True
+    live=True,
+    title="Ankle fracture classifier",
+    description="Disclaimer: Not for diagnostic use."
 )
 
 # Launch the interface
